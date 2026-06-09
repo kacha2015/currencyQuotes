@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
-type Quote = { compra: number; venta: number; actualizado: string; cached?: boolean; stale?: boolean };
+type Quote = { venta: number; actualizado: string; cached?: boolean; stale?: boolean };
 
 export function QuoteCard() {
   const [quote, setQuote] = useState<Quote | null>(null);
@@ -25,7 +25,7 @@ export function QuoteCard() {
     return () => { active = false; window.clearInterval(id); };
   }, []);
 
-  const message = useMemo(() => quote ? `Dólar blue hoy en Argentina: compra $${quote.compra.toFixed(2)} | venta $${quote.venta.toFixed(2)}. Actualizado ${quote.actualizado}.` : 'Dólar blue en tiempo real en Argentina.', [quote]);
+  const message = useMemo(() => quote ? `Dólar blue hoy en Argentina: venta $${quote.venta.toFixed(2)}. Actualizado ${quote.actualizado}.` : 'Dólar blue en tiempo real en Argentina.', [quote]);
   const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
 
   return (
@@ -36,10 +36,6 @@ export function QuoteCard() {
           <div>
             <span className="text-sm text-slate-400">Venta</span>
             <div className="text-5xl font-black text-emerald-400">{quote ? `$${quote.venta.toFixed(2)}` : 'Cargando...'}</div>
-          </div>
-          <div>
-            <span className="text-sm text-slate-400">Compra</span>
-            <div className="text-2xl font-semibold text-slate-200">{quote ? `$${quote.compra.toFixed(2)}` : ''}</div>
           </div>
         </div>
         <p className="mt-3 text-sm text-slate-400">{quote ? `Última actualización: ${quote.actualizado}` : 'Obteniendo datos en vivo...'}</p>
